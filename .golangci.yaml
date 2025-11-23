@@ -1,0 +1,33 @@
+version: 2
+run:
+  timeout: 3m
+  issues-exit-code: 1
+  fix: true
+
+linters:
+  enable:
+    - govet
+    - errcheck
+    - ineffassign
+    - unused
+    - staticcheck
+  disable:
+    - revive
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+    - gci
+  settings:
+    gofmt:
+      simplify: true
+    goimports:
+      local-prefixes:
+        - avito-intern-test
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(avito-intern-test)
+      skip-generated: true

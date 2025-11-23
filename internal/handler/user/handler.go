@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"avito-intern-test/internal/core"
 	"avito-intern-test/internal/handler/common"
 )
 
@@ -40,7 +41,11 @@ func (h *UserHandler) GetReview(w http.ResponseWriter, r *http.Request) {
 	} else {
 		prs, err := h.service.GetReviewerPRs(ctx, userID)
 		if err != nil {
-			common.RespondWithError(w, http.StatusInternalServerError, err.Error())
+			if code, msg, ok := common.ParseCodeMessage(err); ok && code == core.ErrorNotFound {
+				common.RespondAPIError(w, http.StatusNotFound, code, msg)
+			} else {
+				common.RespondWithError(w, http.StatusInternalServerError, err.Error())
+			}
 		} else {
 			items := make([]PullRequestShortDTO, 0, len(prs))
 			for _, p := range prs {

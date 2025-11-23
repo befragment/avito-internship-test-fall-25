@@ -1,9 +1,10 @@
 package service
 
 import (
+	"context"
+
 	teammodel "avito-intern-test/internal/model/team"
 	usermodel "avito-intern-test/internal/model/user"
-	"context"
 )
 
 type teamRepository interface {

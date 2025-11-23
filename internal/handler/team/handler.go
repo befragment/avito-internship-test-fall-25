@@ -1,12 +1,13 @@
 package handler
 
 import (
-	"avito-intern-test/internal/core"
-	"avito-intern-test/internal/handler/common"
-	teamerr "avito-intern-test/internal/service/team"
 	"encoding/json"
 	"errors"
 	"net/http"
+
+	"avito-intern-test/internal/core"
+	"avito-intern-test/internal/handler/common"
+	teamerr "avito-intern-test/internal/service/team"
 )
 
 type TeamHandler struct {

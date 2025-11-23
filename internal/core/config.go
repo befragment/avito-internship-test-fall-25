@@ -22,13 +22,13 @@ func LoadConfig() (*Config, error) {
 
 	cfg := &Config{}
 
-	cfg.Port 		= os.Getenv("PORT")
-	cfg.DBHost 		= os.Getenv("POSTGRES_HOST")
-	cfg.DBPort 		= os.Getenv("POSTGRES_PORT")
-	cfg.DBUser 		= os.Getenv("POSTGRES_USER")
-	cfg.DBPassword 	= os.Getenv("POSTGRES_PASSWORD")
-	cfg.DBName 		= os.Getenv("POSTGRES_DB")
-	cfg.DBSSLMode 	= os.Getenv("POSTGRES_SSLMODE")
+	cfg.Port = os.Getenv("PORT")
+	cfg.DBHost = os.Getenv("POSTGRES_HOST")
+	cfg.DBPort = os.Getenv("POSTGRES_PORT")
+	cfg.DBUser = os.Getenv("POSTGRES_USER")
+	cfg.DBPassword = os.Getenv("POSTGRES_PASSWORD")
+	cfg.DBName = os.Getenv("POSTGRES_DB")
+	cfg.DBSSLMode = os.Getenv("POSTGRES_SSLMODE")
 
 	return cfg, nil
 }

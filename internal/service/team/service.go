@@ -1,12 +1,13 @@
 package service
 
 import (
-	"avito-intern-test/internal/core"
-	teammodel "avito-intern-test/internal/model/team"
-	usermodel "avito-intern-test/internal/model/user"
 	"context"
 	"fmt"
 	"time"
+
+	"avito-intern-test/internal/core"
+	teammodel "avito-intern-test/internal/model/team"
+	usermodel "avito-intern-test/internal/model/user"
 )
 
 type TeamService struct {

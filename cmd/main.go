@@ -34,15 +34,15 @@ func main() {
 		routing.Router(
 			prh.NewPullRequestHandler(prsvc.NewPRService(
 				userRepo,
-				teamRepo, 
+				teamRepo,
 				pullRequestRepo,
 			)),
 			th.NewTeamHandler(teamsvc.NewTeamService(
-				teamRepo, 
+				teamRepo,
 				userRepo,
 			)),
 			uh.NewUserHandler(usersvc.NewUserService(
-				userRepo, 
+				userRepo,
 				pullRequestRepo,
 			)),
 		),

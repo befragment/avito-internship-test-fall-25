@@ -3,6 +3,5 @@ package repository
 import "errors"
 
 var (
-	ErrUserNotFound = errors.New("User not found")
+	ErrUserNotFound = errors.New("user not found")
 )
-

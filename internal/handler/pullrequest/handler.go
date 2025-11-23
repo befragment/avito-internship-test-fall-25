@@ -1,9 +1,10 @@
 package handler
 
 import (
-	"avito-intern-test/internal/handler/common"
 	"encoding/json"
 	"net/http"
+
+	"avito-intern-test/internal/handler/common"
 )
 
 type PullRequestHandler struct {

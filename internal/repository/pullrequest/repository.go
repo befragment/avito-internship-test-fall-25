@@ -2,16 +2,15 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
+	sq "github.com/Masterminds/squirrel"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	prmodel "avito-intern-test/internal/model/pullrequest"
-	"errors"
-
-	sq "github.com/Masterminds/squirrel"
 )
 
 type PullRequestRepository struct {
@@ -290,7 +289,8 @@ func (r *PullRequestRepository) ReviewerPRs(ctx context.Context, userID string) 
 		From("pull_requests p").
 		Join("pr_reviewers r ON r.pull_request_id = p.pull_request_id").
 		Where(sq.Eq{"r.user_id": userID}).
-		OrderBy("p.pull_request_id")
+		OrderBy("p.pull_request_id").
+		PlaceholderFormat(sq.Dollar)
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {

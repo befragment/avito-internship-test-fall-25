@@ -9,7 +9,9 @@ import (
 func RespondWithJSON(w http.ResponseWriter, httpStatus int, data interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(httpStatus)
-	json.NewEncoder(w).Encode(data)
+	if err := json.NewEncoder(w).Encode(data); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 func RespondWithError(w http.ResponseWriter, httpStatus int, message string) {
@@ -27,9 +29,17 @@ func RespondAPIError(w http.ResponseWriter, httpStatus int, code, message string
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(httpStatus)
 	var body apiErrorBody
+	body.Reset()
 	body.Error.Code = code
 	body.Error.Message = message
-	_ = json.NewEncoder(w).Encode(body)
+	if err := json.NewEncoder(w).Encode(body); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func (b *apiErrorBody) Reset() {
+	b.Error.Code = ""
+	b.Error.Message = ""
 }
 
 func ParseCodeMessage(err error) (string, string, bool) {

@@ -4,11 +4,11 @@ import (
 	"context"
 	"time"
 
-	teammodel "avito-intern-test/internal/model/team"
-	usermodel "avito-intern-test/internal/model/user"
-
 	sq "github.com/Masterminds/squirrel"
 	"github.com/jackc/pgx/v5/pgxpool"
+
+	teammodel "avito-intern-test/internal/model/team"
+	usermodel "avito-intern-test/internal/model/user"
 )
 
 type TeamRepository struct {
@@ -67,7 +67,7 @@ func (r *TeamRepository) Exists(ctx context.Context, teamName string) (bool, err
 		return false, err
 	}
 
-	var exists int = 0
+	var exists = 0
 	err = r.pool.QueryRow(ctx, query, args...).Scan(&exists)
 	if err != nil {
 		return false, err

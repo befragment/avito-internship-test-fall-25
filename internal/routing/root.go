@@ -1,13 +1,13 @@
 package routing
 
 import (
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+
 	common "avito-intern-test/internal/handler/common"
 	prh "avito-intern-test/internal/handler/pullrequest"
 	th "avito-intern-test/internal/handler/team"
 	uh "avito-intern-test/internal/handler/user"
-
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 )
 
 func Router(

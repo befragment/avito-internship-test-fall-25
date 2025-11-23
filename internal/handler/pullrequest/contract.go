@@ -1,8 +1,9 @@
 package handler
 
 import (
-	prmodel "avito-intern-test/internal/model/pullrequest"
 	"context"
+
+	prmodel "avito-intern-test/internal/model/pullrequest"
 )
 
 type pullReqeustService interface {

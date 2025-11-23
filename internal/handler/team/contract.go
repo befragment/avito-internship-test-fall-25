@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+
 	teammodel "avito-intern-test/internal/model/team"
 	usermodel "avito-intern-test/internal/model/user"
 )

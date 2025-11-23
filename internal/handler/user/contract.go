@@ -1,9 +1,10 @@
 package handler
 
 import (
+	"context"
+
 	prmodel "avito-intern-test/internal/model/pullrequest"
 	usermodel "avito-intern-test/internal/model/user"
-	"context"
 )
 
 type userService interface {

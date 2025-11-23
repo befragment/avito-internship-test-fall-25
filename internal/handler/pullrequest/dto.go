@@ -1,8 +1,9 @@
 package handler
 
 import (
-	prmodel "avito-intern-test/internal/model/pullrequest"
 	"time"
+
+	prmodel "avito-intern-test/internal/model/pullrequest"
 )
 
 type CreatePRRequest struct {

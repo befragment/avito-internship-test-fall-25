@@ -1,9 +1,9 @@
 package routing
 
 import (
-	pr "avito-intern-test/internal/handler/pullrequest"
-
 	"github.com/go-chi/chi/v5"
+
+	pr "avito-intern-test/internal/handler/pullrequest"
 )
 
 func RegisterPullRequestRoutes(r chi.Router, h *pr.PullRequestHandler) {

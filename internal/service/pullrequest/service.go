@@ -96,7 +96,7 @@ func (s *PRService) CreatePR(ctx context.Context, pullRequestID string, pullRequ
 func (s *PRService) MergePR(ctx context.Context, id string) (*prmodel.PullRequest, error) {
 	pr, err := s.pullRequestRepository.GetByID(ctx, id)
 	if err != nil {
-		return nil, fmt.Errorf("get PR: %w", err)
+		return nil, core.Throw(core.ErrorNotFound, "pr not found")
 	}
 
 	if pr.Status == prmodel.PullRequestStatusMerged {

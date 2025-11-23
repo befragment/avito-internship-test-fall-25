@@ -1,9 +1,11 @@
 package service
 
 import (
+	"context"
+
+	"avito-intern-test/internal/core"
 	prmodel "avito-intern-test/internal/model/pullrequest"
 	usermodel "avito-intern-test/internal/model/user"
-	"context"
 )
 
 type UserService struct {
@@ -33,6 +35,9 @@ func (s *UserService) GetReviewerPRs(
 	ctx context.Context,
 	ReviewerID string,
 ) ([]prmodel.PullRequest, error) {
+	if _, err := s.userRepository.GetByID(ctx, ReviewerID); err != nil {
+		return nil, core.Throw(core.ErrorNotFound, "user not found")
+	}
 	reviewerPRIDs, err := s.userRepository.GetReviewerPRs(ctx, ReviewerID)
 	if err != nil {
 		return nil, err

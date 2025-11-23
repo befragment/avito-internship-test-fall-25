@@ -1,8 +1,9 @@
 package handler
 
 import (
-	"avito-intern-test/internal/handler/common"
 	"net/http"
+
+	"avito-intern-test/internal/handler/common"
 )
 
 func handleReassignPullRequestError(w http.ResponseWriter, code string, msg string, err error) {

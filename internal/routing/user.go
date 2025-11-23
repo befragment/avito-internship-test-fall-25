@@ -1,9 +1,9 @@
 package routing
 
 import (
-	u "avito-intern-test/internal/handler/user"
-
 	"github.com/go-chi/chi/v5"
+
+	u "avito-intern-test/internal/handler/user"
 )
 
 func RegisterUserRoutes(r chi.Router, h *u.UserHandler) {
