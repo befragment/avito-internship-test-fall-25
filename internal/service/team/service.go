@@ -44,6 +44,18 @@ func (s *TeamService) CreateWithMembers(
 	teamName string,
 	members []usermodel.User,
 ) (*teammodel.Team, error) {
+	for _, m := range members {
+		existing, err := s.userRepository.GetByID(ctx, m.UserID)
+		if err == nil {
+			if existing.TeamName != "" && existing.TeamName != teamName {
+				return nil, core.Throw(core.ErrorUserExists, "user already in another team")
+			}
+			if existing.TeamName == teamName {
+				return nil, core.Throw(core.ErrorUserExists, "user already in team")
+			}
+		}
+	}
+
 	exists, _ := s.teamRepository.Exists(ctx, teamName)
 	var createdTeam *teammodel.Team
 	if !exists {
@@ -60,14 +72,7 @@ func (s *TeamService) CreateWithMembers(
 	}
 
 	for _, m := range members {
-		existing, err := s.userRepository.GetByID(ctx, m.UserID)
-		if err == nil {
-			if existing.TeamName != "" && existing.TeamName != teamName {
-				continue
-			}
-			if existing.TeamName == teamName {
-				return nil, core.Throw(core.ErrorUserExists, "user already in team")
-			}
+		if existing, err := s.userRepository.GetByID(ctx, m.UserID); err == nil {
 			existing.Username = m.Username
 			existing.IsActive = m.IsActive
 			existing.TeamName = teamName
@@ -75,17 +80,17 @@ func (s *TeamService) CreateWithMembers(
 			if err := s.userRepository.CreateOrUpdate(ctx, existing); err != nil {
 				return nil, fmt.Errorf("create or update user %s: %w", m.UserID, err)
 			}
-			continue
-		}
-		newUser := usermodel.User{
-			UserID:    m.UserID,
-			Username:  m.Username,
-			TeamName:  teamName,
-			IsActive:  m.IsActive,
-			CreatedAt: time.Now(),
-		}
-		if err := s.userRepository.CreateOrUpdate(ctx, newUser); err != nil {
-			return nil, fmt.Errorf("create or update user %s: %w", m.UserID, err)
+		} else {
+			newUser := usermodel.User{
+				UserID:    m.UserID,
+				Username:  m.Username,
+				TeamName:  teamName,
+				IsActive:  m.IsActive,
+				CreatedAt: time.Now(),
+			}
+			if err := s.userRepository.CreateOrUpdate(ctx, newUser); err != nil {
+				return nil, fmt.Errorf("create or update user %s: %w", m.UserID, err)
+			}
 		}
 	}
 	return createdTeam, nil
