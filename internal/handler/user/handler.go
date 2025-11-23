@@ -1,3 +1,59 @@
 package handler
 
-type userService interface {}
+import (
+	"encoding/json"
+	"net/http"
+
+	"avito-intern-test/internal/handler/common"
+)
+
+type UserHandler struct {
+	service userService
+}
+
+func NewUserHandler(service userService) *UserHandler {
+	return &UserHandler{service: service}
+}
+
+func (h *UserHandler) SetIsActive(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	var req SetIsActiveRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		common.RespondWithError(w, http.StatusBadRequest, "invalid json body")
+	}
+	user, err := h.service.SetIsActive(ctx, req.UserID, req.IsActive)
+	if err != nil {
+		common.RespondAPIError(w, http.StatusNotFound, "NOT_FOUND", "resource not found")
+	}
+	common.RespondWithJSON(w, http.StatusOK, map[string]interface{}{
+		"user": userToDTO(user),
+	})
+}
+
+func (h *UserHandler) GetReview(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	userID := r.URL.Query().Get("user_id")
+	if userID == "" {
+		common.RespondWithError(w, http.StatusBadRequest, "user_id is required")
+	}
+
+	prs, err := h.service.GetReviewerPRs(ctx, userID)
+	if err != nil {
+		common.RespondWithError(w, http.StatusInternalServerError, err.Error())
+	}
+
+	items := make([]PullRequestShortDTO, 0, len(prs))
+	for _, p := range prs {
+		items = append(items, PullRequestShortDTO{
+			PullRequestID:   p.PullRequestID,
+			PullRequestName: p.PullRequestName,
+			AuthorID:        p.AuthorID,
+			Status:          string(p.Status),
+		})
+	}
+	resp := GetReviewResponse{
+		UserID:       userID,
+		PullRequests: items,
+	}
+	common.RespondWithJSON(w, http.StatusOK, resp)
+}
